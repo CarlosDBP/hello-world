@@ -9,13 +9,11 @@ jobs:
     name: My test
     runs-on: ubuntu-latest
     steps:
-      - env:
-          bn: 'hello/world/algo'
       - name: set env
-        if: ${{ $(echo "$bn" | wc -c) > 10}}
+        if: ${{ $(echo ${{ github.head_ref }} | wc -c) > 10}}
         run: echo "BRANCH_NAME=$(echo "$bn" | grep -o -P "^.+/" | sed 's+/$++')" >> $GITHUB_ENV
       - name: set env 2
-        if: ${{ $(echo "$bn" | wc -c) < 10}}
+        if: ${{ $(echo ${{ github.head_ref }} | wc -c) < 10}}
         run: echo "BRANCH_NAME=ALGO" >> $GITHUB_ENV
       - name: run test
         run: echo $BRANCH_NAME
