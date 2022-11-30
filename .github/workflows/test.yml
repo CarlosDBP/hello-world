@@ -9,19 +9,17 @@ jobs:
     name: My test
     runs-on: ubuntu-latest
     steps:
-      - env:
-          thebranch: Portillla77/VCOSSB-172/Fix_solution_based_on_averages
       - name: Check branch name length
-        if: $(echo ${{thebranch}} | wc -c) < 30
+        env:
+          thebranch: Portillla77/VCOSSB-172/Fix_solution_based_on_averages
+        if: $(echo ${{thebranch}} | wc -c) > 30
         run: |
           echo '::set-env name=TAG::$(echo 'Portillla77/VCOSSB-172/Fix_solution_based_on_averages' | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: Set tag
-        if: (echo 'Portillla77/VCOSSB-172/Fix_solution_based_on_averages' | wc -c) < 30
-        run: echo '::set-env name=TAG::$(echo 'Portillla77/VCOSSB-172/Fix_solution_based_on_averages' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
         env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+          thebranch: Portillla77/VCOSSB-172/Fix_solution_based_on_averages
+        if: $(echo ${{thebranch}} | wc -c) < 30
+        run: echo '::set-env name=TAG::$(echo 'Portillla77/VCOSSB-172/Fix_solution_based_on_averages' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
       - name: run test
         run: echo $TAG
           
