@@ -12,7 +12,11 @@ jobs:
       - name: set env
         env:
           bn: 'hello/world/algo'
-        run: echo "BRANCH_NAME=$(var="echo 'hello/world/algo' | wc -c" |  if $var > 3; then echo "$bn" | grep -o -P "^.+/" | sed 's+/$++'; fi)" >> $GITHUB_ENV
+        if: ${{ $(echo "$bn" | wc -c) > 10}}
+        run: echo "BRANCH_NAME=$(echo "$bn" | grep -o -P "^.+/" | sed 's+/$++')" >> $GITHUB_ENV
+      - name: set env 2
+        if: ${{ $(echo "$bn" | wc -c) < 10}}
+        run: echo "BRANCH_NAME=ALGO" >> $GITHUB_ENV
       - name: run test
         run: echo $BRANCH_NAME
           
