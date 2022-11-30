@@ -9,9 +9,9 @@ jobs:
     name: My test
     runs-on: ubuntu-latest
     steps:
-      - name: set env
-        env:
+      - env:
           bn: 'hello/world/algo'
+      - name: set env
         if: ${{ $(echo "$bn" | wc -c) > 10}}
         run: echo "BRANCH_NAME=$(echo "$bn" | grep -o -P "^.+/" | sed 's+/$++')" >> $GITHUB_ENV
       - name: set env 2
