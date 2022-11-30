@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: run test
         env:
-          branch_name: $(var="echo 'hello/world/algo' | wc -c" |  if $var > 3; then echo "$bn" | grep -o -P "^.+/" | sed 's+/$++'; fi)
+          branch_name: ${var="echo 'hello/world/algo' | wc -c" |  if $var > 3; then echo "$bn" | grep -o -P "^.+/" | sed 's+/$++'; fi}
         run: |
           echo "$branch_name"
