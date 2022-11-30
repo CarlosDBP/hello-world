@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check branch name length
-        if: $(echo ${{ github.head_ref }} | wc -c) > 30
+        if: $(echo ${{ github.head }} | wc -c) > 30
         run: |
           echo '::set-env name=TAG::$(echo ${{ github.head_ref }} | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: Set tag
-        if: $(echo ${{ github.head_ref }} | wc -c) < 30
+        if: $(echo ${{ github.head }} | wc -c) < 30
         run: echo '::set-env name=TAG::$(echo ${{ github.head_ref }} | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
