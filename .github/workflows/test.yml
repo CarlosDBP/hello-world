@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+      - 'master'
+      
+name: Tests
+jobs:
+  runTests:
+    name: My test
+    runs-on: ubuntu-latest
+    steps:
+      - name: run test
+        env:
+          branch_name: $(var="echo 'hello/world/algo' | wc -c" |  if $var > 3; then echo "$bn" | grep -o -P "^.+/" | sed 's+/$++'; fi)
+        run: |
+          echo "$branch_name"
