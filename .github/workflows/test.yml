@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check branch name length
-        if: ${{ echo secrets.BRANCH  | wc -c) > 30}}
+        if: $(echo ${{secrets.BRANCH}} | wc -c) > 30
         run: |
           echo '::set-env name=TAG::$(echo ${{ BRANCH }} | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
         env:
