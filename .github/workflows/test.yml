@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check branch name length
-        if: $(echo ${{ BRANCH }} | wc -c) > 30
+        if: $(echo ${{ env.BRANCH }} | wc -c) > 30
         run: |
-          echo '::set-env name=TAG::$(echo ${{ BRANCH }} | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+          echo '::set-env name=TAG::$(echo ${{ env.BRANCH }} | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: Set tag
-        if: $(echo ${{ BRANCH }} | wc -c) < 30
-        run: echo '::set-env name=TAG::$(echo ${{ BRANCH }} | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+        if: $(echo ${{ env.BRANCH }} | wc -c) < 30
+        run: echo '::set-env name=TAG::$(echo ${{ env.BRANCH }} | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: run test
