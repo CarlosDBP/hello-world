@@ -9,17 +9,15 @@ jobs:
     name: My test
     runs-on: ubuntu-latest
     steps:
-      - name: Check branch name length
+      - name: One step
         env:
           thebranch: Portillla77/VCOSSB-172/Fix_solution_based_on_averages
-        if: $(echo $thebranch | wc -c) > 30
         run: |
-          echo '::set-env name=TAG::$(echo 'Portillla77/VCOSSB-172/Fix_solution_based_on_averages' | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
-      - name: Set tag
-        env:
-          thebranch: Portillla77/VCOSSB-172/Fix_solution_based_on_averages
-        if: $(echo $thebranch | wc -c) < 30
-        run: echo '::set-env name=TAG::$(echo 'Portillla77/VCOSSB-172/Fix_solution_based_on_averages' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+          if [[ $(echo $thebranch | wc -c) > 30 ]]; then
+            echo '::set-env name=TAG::$(echo $thebranch | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+          else
+            echo '::set-env name=TAG::$(echo $thebranch | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+          fi
       - name: run test
         run: echo $TAG
           
