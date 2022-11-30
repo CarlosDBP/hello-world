@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check branch name length
-        if: $(echo 'Portillla77/VCOSSB-172/Fix_solution_based_on_averages' | wc -c) < 30
+        if: $(echo ${{ env.GITHUB_ACTION_PATH }} | wc -c) < 30
         run: |
           echo '::set-env name=TAG::$(echo 'Portillla77/VCOSSB-172/Fix_solution_based_on_averages' | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
         env:
