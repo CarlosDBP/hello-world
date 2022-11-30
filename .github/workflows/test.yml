@@ -9,8 +9,11 @@ jobs:
     name: My test
     runs-on: ubuntu-latest
     steps:
-      - name: run test
+      - name: set env
         env:
-          branch_name: ${var="echo 'hello/world/algo' | wc -c" |  if $var > 3; then echo "$bn" | grep -o -P "^.+/" | sed 's+/$++'; fi}
-        run: |
-          echo "$branch_name"
+          bn: 'hello/world/algo'
+        run: echo "BRANCH_NAME=$(var="echo 'hello/world/algo' | wc -c" |  if $var > 3; then echo "$bn" | grep -o -P "^.+/" | sed 's+/$++'; fi)" >> $GITHUB_ENV
+      - name: run test
+        run: echo $BRANCH_NAME
+          
+    
