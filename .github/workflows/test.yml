@@ -9,13 +9,18 @@ jobs:
     name: My test
     runs-on: ubuntu-latest
     steps:
-      - name: set env
-        if: $(echo ${{ github.head_ref }} | wc -c) > 10
-        run: echo "BRANCH_NAME=$(echo "$bn" | grep -o -P "^.+/" | sed 's+/$++')" >> $GITHUB_ENV
-      - name: set env 2
-        if: $(echo ${{ github.head_ref }} | wc -c) < 10
-        run: echo "BRANCH_NAME=ALGO" >> $GITHUB_ENV
+      - name: Check branch name length
+        if: $(echo ${{ github.head_ref }} | wc -c) > 30
+        run: |
+          echo '::set-env name=TAG::$(echo ${{ github.head_ref }} | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+      - name: Set tag
+        if: $(echo ${{ github.head_ref }} | wc -c) < 30
+        run: echo '::set-env name=TAG::$(echo ${{ github.head_ref }} | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - name: run test
-        run: echo $BRANCH_NAME
+        run: echo $TAG
           
     
