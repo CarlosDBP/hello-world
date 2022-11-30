@@ -14,11 +14,11 @@ jobs:
           thebranch: Portillla77/VCOSSB-172/Fix_solution_based_on_averages
         run: |
           if [[ $(echo $thebranch | wc -c) > 30 ]]; then
-            echo '::set-env name=TAG::$(echo $thebranch | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+            echo "BRANCH_NAME=$(echo $thebranch | grep -o -P "^.+/" | sed 's+/$++' | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")" >> $GITHUB_ENV      
           else
-            echo '::set-env name=TAG::$(echo $thebranch | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")'
+            echo "BRANCH_NAME=$(echo $thebranch | tr '[:upper:]' '[:lower:]' | sed "s+/+-+g")" >> $GITHUB_ENV              
           fi
       - name: run test
-        run: echo $TAG
+        run: echo $BRANCH_NAME
           
     
